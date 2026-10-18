@@ -1,5 +1,7 @@
 # minilogue xd Controller 🐈
 
+<img src="assets/icon.svg" width="96" align="right" alt="icon">
+
 Controller plugin for the Korg minilogue xd.
 
 ## Status
