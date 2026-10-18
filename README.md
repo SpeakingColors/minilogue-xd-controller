@@ -9,6 +9,7 @@ Early work in progress. Free and open source. Donations welcome (link coming).
 
 ## Docs
 - [Interactive mockups](docs/README.md)
+- [MIDI implementation](docs/MIDI-IMPLEMENTATION.md)
 - [Roadmap](ROADMAP.md)
 
 ## License
