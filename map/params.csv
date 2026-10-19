@@ -1,0 +1,55 @@
+id,group,name,kind,a,b,min,max,def,range_src,hw
+cc_5,CC map,Portamento,cc,5,0,0,127,0,assumed,0
+cc_27,CC map,Voice Mode Depth,cc,27,0,0,127,0,assumed,0
+cc_52,CC map,Voice Mode Type,cc,52,0,0,127,0,assumed,0
+cc_50,CC map,VCO1 Wave,cc,50,0,0,127,0,assumed,0
+cc_48,CC map,VCO1 Octave,cc,48,0,0,127,0,assumed,0
+cc_34,CC map,VCO1 Pitch,cc,34,0,0,127,0,assumed,0
+cc_36,CC map,VCO1 Shape,cc,36,0,0,127,0,assumed,0
+cc_51,CC map,VCO2 Wave,cc,51,0,0,127,0,assumed,0
+cc_49,CC map,VCO2 Octave,cc,49,0,0,127,0,assumed,0
+cc_35,CC map,VCO2 Pitch,cc,35,0,0,127,0,assumed,0
+cc_37,CC map,VCO2 Shape,cc,37,0,0,127,0,assumed,0
+cc_53,CC map,Multi Type,cc,53,0,0,127,0,assumed,0
+cc_103,CC map,Sub Type,cc,103,0,0,127,0,assumed,0
+cc_54,CC map,Multi Shape,cc,54,0,0,127,0,assumed,0
+cc_104,CC map,Shift Shape,cc,104,0,0,127,0,assumed,0
+cc_39,CC map,Mixer VCO1,cc,39,0,0,127,0,assumed,0
+cc_40,CC map,Mixer VCO2,cc,40,0,0,127,0,assumed,0
+cc_33,CC map,Mixer Multi,cc,33,0,0,127,0,assumed,0
+cc_43,CC map,Cutoff,cc,43,0,0,127,0,assumed,0
+cc_44,CC map,Resonance,cc,44,0,0,127,0,assumed,0
+cc_84,CC map,Cutoff Drive,cc,84,0,0,127,0,assumed,0
+cc_83,CC map,Cutoff Keytrack,cc,83,0,0,127,0,assumed,0
+cc_16,CC map,Amp EG Attack,cc,16,0,0,127,0,assumed,0
+cc_17,CC map,Amp EG Decay,cc,17,0,0,127,0,assumed,0
+cc_18,CC map,Amp EG Sustain,cc,18,0,0,127,0,assumed,0
+cc_19,CC map,Amp EG Release,cc,19,0,0,127,0,assumed,0
+cc_20,CC map,EG Attack,cc,20,0,0,127,0,assumed,0
+cc_21,CC map,EG Decay,cc,21,0,0,127,0,assumed,0
+cc_22,CC map,EG Int,cc,22,0,0,127,0,assumed,0
+cc_23,CC map,EG Target,cc,23,0,0,127,0,assumed,0
+cc_57,CC map,LFO Wave,cc,57,0,0,127,0,assumed,0
+cc_58,CC map,LFO Mode,cc,58,0,0,127,0,assumed,0
+cc_24,CC map,LFO Rate,cc,24,0,0,127,0,assumed,0
+cc_26,CC map,LFO Int,cc,26,0,0,127,0,assumed,0
+cc_56,CC map,LFO Target,cc,56,0,0,127,0,assumed,0
+cc_88,CC map,Mod FX Type,cc,88,0,0,127,0,assumed,0
+cc_96,CC map,Sub Type,cc,96,0,0,127,0,assumed,0
+cc_28,CC map,Mod FX Time,cc,28,0,0,127,0,assumed,0
+cc_29,CC map,Mod FX Depth,cc,29,0,0,127,0,assumed,0
+cc_89,CC map,Delay Type,cc,89,0,0,127,0,assumed,0
+cc_105,CC map,Delay Time,cc,105,0,0,127,0,assumed,0
+cc_112,CC map,Delay Depth,cc,112,0,0,127,0,assumed,0
+cc_107,CC map,Delay Dry/Wet,cc,107,0,0,127,0,assumed,0
+cc_90,CC map,Reverb Type,cc,90,0,0,127,0,assumed,0
+cc_114,CC map,Reverb Time,cc,114,0,0,127,0,assumed,0
+cc_115,CC map,Reverb Depth,cc,115,0,0,127,0,assumed,0
+cc_110,CC map,Reverb Dry/Wet,cc,110,0,0,127,0,assumed,0
+cc_80,CC map,Sync,cc,80,0,0,127,0,assumed,0
+cc_81,CC map,Ring,cc,81,0,0,127,0,assumed,0
+cc_41,CC map,Cross Mod Depth,cc,41,0,0,127,0,assumed,0
+cc_92,CC map,Mod FX On/Off,cc,92,0,0,127,0,assumed,0
+cc_94,CC map,Delay On/Off,cc,94,0,0,127,0,assumed,0
+cc_95,CC map,Reverb On/Off,cc,95,0,0,127,0,assumed,0
+cc_64,CC map,Damper,cc,64,0,0,127,0,assumed,0

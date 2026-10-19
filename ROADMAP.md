@@ -2,7 +2,14 @@
 
 Controller and librarian for the Korg minilogue xd.
 
+## Done
+- [x] Plugin skeleton: parameter map from the manual, CC and NRPN send/receive, host automation, cat-ui look, CI on three systems
+
 ## Next
+- [ ] Test every map entry on the real device and flip it to verified (`hw` column in map/params.csv)
+- [ ] Test the VST3 in Bitwig and Studio One on Linux
+- [ ] Two-CC controls: find out which CC is the coarse one on the device
+
 - [ ] Playable joystick, toggle stems that follow the cap, step button lights that follow state (done in the mockup)
 - [ ] LCD shows the parameter value and the waveform follows the patch
 - [ ] Real MIDI I/O, program edit, sequencer and motion, librarian, microtuning
