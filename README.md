@@ -4,6 +4,10 @@
 
 Controller plugin for the Korg minilogue xd.
 
+<p align="center"><img src="docs/screenshot.png" alt="minilogue xd Controller editor" width="900"><br><sub>Screenshot of the interactive mockup in docs/mockups.</sub></p>
+
+**Manual:** [PDF, opens in the browser](https://github.com/SpeakingColors/minilogue-xd-controller/blob/main/docs/minilogue-xd-controller-manual.pdf)
+
 ## Status
 **Early build v0.1 (pre-release on the Releases page).** A MIDI controller plugin (VST3 and standalone) that sends and receives the CC messages listed in [map/params.csv](map/params.csv).
 
