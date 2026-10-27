@@ -1,0 +1,37 @@
+[
+ {
+  "title": "minilogue xd · Panel",
+  "img": "gallery_1.png",
+  "file": "MLXD.dc.html",
+  "w": 1598,
+  "h": 530
+ },
+ {
+  "title": "minilogue xd · Program edit",
+  "img": "gallery_2.png",
+  "file": "MLXD_Edit.dc.html",
+  "w": 1598,
+  "h": 663
+ },
+ {
+  "title": "minilogue xd · Sequencer & motion",
+  "img": "gallery_3.png",
+  "file": "MLXD_Seq.dc.html",
+  "w": 1598,
+  "h": 834
+ },
+ {
+  "title": "minilogue xd · Global & microtuning",
+  "img": "gallery_4.png",
+  "file": "MLXD_Global.dc.html",
+  "w": 1598,
+  "h": 667
+ },
+ {
+  "title": "minilogue xd · Librarian & units",
+  "img": "gallery_5.png",
+  "file": "MLXD_Lib.dc.html",
+  "w": 1598,
+  "h": 716
+ }
+]
