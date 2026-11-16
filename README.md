@@ -15,7 +15,7 @@ Controller plugin for the Korg minilogue xd.
 
 - 54 parameters, taken from: Korg minilogue xd (owner manual MIDI chart). The chart prints CC numbers per group without naming each one; the pairing follows the printed order and still needs a test on the unit.
 - **None are tested on the real device yet.** The map only holds what the source above lists; ranges the manual does not print are assumed to be 0 to 127 and are marked that way in the plugin.
-- No SysEx and no patch librarian yet. Nothing is sent that is not in the map.
+- No SysEx and no patch librarian yet.
 - Not tested in a DAW yet. Builds in CI on Linux, Windows and macOS.
 
 How it behaves: every entry is an automatable parameter. Moving it sends MIDI to the device, and incoming CC from the device moves it; incoming CC is consumed, never echoed back. At most 16 parameters are sent per audio block so the device is not flooded. Turn on CC receive and transmit on the device.
