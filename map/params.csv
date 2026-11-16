@@ -1,55 +1,74 @@
-id,group,name,kind,a,b,min,max,def,range_src,hw
-cc_5,CC map,Portamento,cc,5,0,0,127,0,assumed,0
-cc_27,CC map,Voice Mode Depth,cc,27,0,0,127,0,assumed,0
-cc_52,CC map,Voice Mode Type,cc,52,0,0,127,0,assumed,0
-cc_50,CC map,VCO1 Wave,cc,50,0,0,127,0,assumed,0
-cc_48,CC map,VCO1 Octave,cc,48,0,0,127,0,assumed,0
-cc_34,CC map,VCO1 Pitch,cc,34,0,0,127,0,assumed,0
-cc_36,CC map,VCO1 Shape,cc,36,0,0,127,0,assumed,0
-cc_51,CC map,VCO2 Wave,cc,51,0,0,127,0,assumed,0
-cc_49,CC map,VCO2 Octave,cc,49,0,0,127,0,assumed,0
-cc_35,CC map,VCO2 Pitch,cc,35,0,0,127,0,assumed,0
-cc_37,CC map,VCO2 Shape,cc,37,0,0,127,0,assumed,0
-cc_53,CC map,Multi Type,cc,53,0,0,127,0,assumed,0
-cc_103,CC map,Multi Sub Type,cc,103,0,0,127,0,assumed,0
-cc_54,CC map,Multi Shape,cc,54,0,0,127,0,assumed,0
-cc_104,CC map,Shift Shape,cc,104,0,0,127,0,assumed,0
-cc_39,CC map,Mixer VCO1,cc,39,0,0,127,0,assumed,0
-cc_40,CC map,Mixer VCO2,cc,40,0,0,127,0,assumed,0
-cc_33,CC map,Mixer Multi,cc,33,0,0,127,0,assumed,0
-cc_43,CC map,Cutoff,cc,43,0,0,127,0,assumed,0
-cc_44,CC map,Resonance,cc,44,0,0,127,0,assumed,0
-cc_84,CC map,Cutoff Drive,cc,84,0,0,127,0,assumed,0
-cc_83,CC map,Cutoff Keytrack,cc,83,0,0,127,0,assumed,0
-cc_16,CC map,Amp EG Attack,cc,16,0,0,127,0,assumed,0
-cc_17,CC map,Amp EG Decay,cc,17,0,0,127,0,assumed,0
-cc_18,CC map,Amp EG Sustain,cc,18,0,0,127,0,assumed,0
-cc_19,CC map,Amp EG Release,cc,19,0,0,127,0,assumed,0
-cc_20,CC map,EG Attack,cc,20,0,0,127,0,assumed,0
-cc_21,CC map,EG Decay,cc,21,0,0,127,0,assumed,0
-cc_22,CC map,EG Int,cc,22,0,0,127,0,assumed,0
-cc_23,CC map,EG Target,cc,23,0,0,127,0,assumed,0
-cc_57,CC map,LFO Wave,cc,57,0,0,127,0,assumed,0
-cc_58,CC map,LFO Mode,cc,58,0,0,127,0,assumed,0
-cc_24,CC map,LFO Rate,cc,24,0,0,127,0,assumed,0
-cc_26,CC map,LFO Int,cc,26,0,0,127,0,assumed,0
-cc_56,CC map,LFO Target,cc,56,0,0,127,0,assumed,0
-cc_88,CC map,Mod FX Type,cc,88,0,0,127,0,assumed,0
-cc_96,CC map,Mod FX Sub Type,cc,96,0,0,127,0,assumed,0
-cc_28,CC map,Mod FX Time,cc,28,0,0,127,0,assumed,0
-cc_29,CC map,Mod FX Depth,cc,29,0,0,127,0,assumed,0
-cc_89,CC map,Delay Type,cc,89,0,0,127,0,assumed,0
-cc_105,CC map,Delay Time,cc,105,0,0,127,0,assumed,0
-cc_112,CC map,Delay Depth,unsent,112,0,0,127,0,assumed,0
-cc_107,CC map,Delay Dry/Wet,cc,107,0,0,127,0,assumed,0
-cc_90,CC map,Reverb Type,cc,90,0,0,127,0,assumed,0
-cc_114,CC map,Reverb Time,unsent,114,0,0,127,0,assumed,0
-cc_115,CC map,Reverb Depth,unsent,115,0,0,127,0,assumed,0
-cc_110,CC map,Reverb Dry/Wet,cc,110,0,0,127,0,assumed,0
-cc_80,CC map,Sync,cc,80,0,0,127,0,assumed,0
-cc_81,CC map,Ring,cc,81,0,0,127,0,assumed,0
-cc_41,CC map,Cross Mod Depth,cc,41,0,0,127,0,assumed,0
-cc_92,CC map,Mod FX On/Off,cc,92,0,0,127,0,assumed,0
-cc_94,CC map,Delay On/Off,unsent,94,0,0,127,0,assumed,0
-cc_95,CC map,Reverb On/Off,unsent,95,0,0,127,0,assumed,0
-cc_64,CC map,Damper,cc,64,0,0,127,0,assumed,0
+id,group,name,kind,a,b,min,max,def,range_src,hw,source
+cc_5,CC map,"Portamento Time",cc,5,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_16,CC map,"Amp EG Attack",cc,16,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_17,CC map,"Amp EG Decay",cc,17,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_18,CC map,"Amp EG Sustain",cc,18,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_19,CC map,"Amp EG Release",cc,19,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_20,CC map,"EG Attack",cc,20,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_21,CC map,"EG Decay",cc,21,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_22,CC map,"EG Int",cc,22,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_23,CC map,"EG Target (0, 64, 127)",cc,23,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_24,CC map,"LFO Rate",cc,24,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_26,CC map,"LFO Int",cc,26,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_27,CC map,"Voice Mode Depth",cc,27,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_28,CC map,"Mod FX Time",cc,28,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_29,CC map,"Mod FX Depth",cc,29,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_33,CC map,"Multi Level",cc,33,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_34,CC map,"VCO1 Pitch",cc,34,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_35,CC map,"VCO2 Pitch",cc,35,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_36,CC map,"VCO1 Shape",cc,36,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_37,CC map,"VCO2 Shape",cc,37,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_39,CC map,"VCO1 Level",cc,39,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_40,CC map,"VCO2 Level",cc,40,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_41,CC map,"Cross Mod Depth",cc,41,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_43,CC map,"Cutoff",cc,43,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_44,CC map,"Resonance",cc,44,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_48,CC map,"VCO1 Octave (0, 42, 84, 127)",cc,48,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_49,CC map,"VCO2 Octave (0, 42, 84, 127)",cc,49,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_50,CC map,"VCO1 Wave (0, 64, 127)",cc,50,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_51,CC map,"VCO2 Wave (0, 64, 127)",cc,51,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_53,CC map,"Multi Type (0, 64, 127)",cc,53,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_54,CC map,"Multi Shape",cc,54,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_56,CC map,"LFO Target (0, 64, 127)",cc,56,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_57,CC map,"LFO Wave (0, 64, 127)",cc,57,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_58,CC map,"LFO Mode (0, 64, 127)",cc,58,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_64,CC map,"Hold (Damper)",cc,64,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_80,CC map,"Sync (0 or 127)",cc,80,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_81,CC map,"Ring (0 or 127)",cc,81,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_83,CC map,"Cutoff Keytrack (0, 64, 127)",cc,83,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_84,CC map,"Cutoff Drive (0, 64, 127)",cc,84,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_88,CC map,"Mod FX Type (0, 38, 64, 84, 127)",cc,88,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_89,CC map,"Delay Sub Type",cc,89,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_90,CC map,"Reverb Sub Type",cc,90,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_92,CC map,"Mod FX On/Off (0 or 127)",cc,92,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_93,CC map,"Delay On/Off (0 or 127)",cc,93,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_94,CC map,"Reverb On/Off (0 or 127)",cc,94,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_96,CC map,"Mod FX Sub Type",cc,96,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_103,CC map,"Multi Sub Type Select",cc,103,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_104,CC map,"Multi Shift Shape",cc,104,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_105,CC map,"Delay Time",cc,105,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_106,CC map,"Delay Depth",cc,106,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_107,CC map,"Delay Dry/Wet",cc,107,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_108,CC map,"Reverb Time",cc,108,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_109,CC map,"Reverb Depth",cc,109,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+cc_110,CC map,"Reverb Dry/Wet",cc,110,0,0,127,0,official,0,"official: minilogue xd MIDI Implementation rev 1.01 (2020.2.10) sec 1-1/2-1"
+nrpn_0_16,NRPN,"Voice Mode Type (0 Arp Latch, 1 Arp, 2 Chord, 3 Unison, 4 Poly)",nrpn,0,16,0,4,4,official,0,"official: same doc, NRPN table (*3); UNVERIFIED: MSB printed as -- and read as 0"
+nrpn_0_17,NRPN,"Multi Select Noise",nrpn,0,17,0,3,0,official,0,"official: same doc, NRPN table (*3); UNVERIFIED: MSB printed as -- and read as 0"
+nrpn_0_18,NRPN,"Multi Select VPM",nrpn,0,18,0,15,0,official,0,"official: same doc, NRPN table (*3); UNVERIFIED: MSB printed as -- and read as 0"
+nrpn_0_19,NRPN,"Multi Select User",nrpn,0,19,0,15,0,official,0,"official: same doc, NRPN table (*3); UNVERIFIED: MSB printed as -- and read as 0"
+nrpn_0_32,NRPN,"Bend Range +",nrpn,0,32,0,12,2,official,0,"official: same doc, NRPN table (*3); UNVERIFIED: MSB printed as -- and read as 0"
+nrpn_0_33,NRPN,"Bend Range -",nrpn,0,33,0,12,2,official,0,"official: same doc, NRPN table (*3); UNVERIFIED: MSB printed as -- and read as 0"
+nrpn_0_49,NRPN,"Scale Key",nrpn,0,49,0,24,12,official,0,"official: same doc, NRPN table (*3); UNVERIFIED: MSB printed as -- and read as 0"
+nrpn_0_50,NRPN,"Program Tuning",nrpn,0,50,0,100,50,official,0,"official: same doc, NRPN table (*3); UNVERIFIED: MSB printed as -- and read as 0"
+nrpn_0_52,NRPN,"LFO Key Sync",nrpn,0,52,0,1,0,official,0,"official: same doc, NRPN table (*3); UNVERIFIED: MSB printed as -- and read as 0"
+nrpn_0_53,NRPN,"LFO Voice Sync",nrpn,0,53,0,1,0,official,0,"official: same doc, NRPN table (*3); UNVERIFIED: MSB printed as -- and read as 0"
+nrpn_0_54,NRPN,"LFO Target Osc",nrpn,0,54,0,3,0,official,0,"official: same doc, NRPN table (*3); UNVERIFIED: MSB printed as -- and read as 0"
+nrpn_0_56,NRPN,"EG Velocity",nrpn,0,56,0,127,0,official,0,"official: same doc, NRPN table (*3); UNVERIFIED: MSB printed as -- and read as 0"
+nrpn_0_57,NRPN,"Amp Velocity",nrpn,0,57,0,127,0,official,0,"official: same doc, NRPN table (*3); UNVERIFIED: MSB printed as -- and read as 0"
+nrpn_0_58,NRPN,"Multi Octave",nrpn,0,58,0,3,1,official,0,"official: same doc, NRPN table (*3); UNVERIFIED: MSB printed as -- and read as 0"
+nrpn_0_59,NRPN,"Multi Routing (0 Pre VCF, 1 Post VCF)",nrpn,0,59,0,1,0,official,0,"official: same doc, NRPN table (*3); UNVERIFIED: MSB printed as -- and read as 0"
+nrpn_0_60,NRPN,"EG Legato",nrpn,0,60,0,1,0,official,0,"official: same doc, NRPN table (*3); UNVERIFIED: MSB printed as -- and read as 0"
+nrpn_0_61,NRPN,"Portamento Mode (0 Auto, 1 On)",nrpn,0,61,0,1,0,official,0,"official: same doc, NRPN table (*3); UNVERIFIED: MSB printed as -- and read as 0"
+nrpn_0_62,NRPN,"Portamento BPM Sync",nrpn,0,62,0,1,0,official,0,"official: same doc, NRPN table (*3); UNVERIFIED: MSB printed as -- and read as 0"
+nrpn_0_63,NRPN,"Program Level",nrpn,0,63,0,120,90,official,0,"official: same doc, NRPN table (*3); UNVERIFIED: MSB printed as -- and read as 0"
+nrpn_0_80,NRPN,"Program Transpose",nrpn,0,80,1,25,13,official,0,"official: same doc, NRPN table (*3); UNVERIFIED: MSB printed as -- and read as 0"

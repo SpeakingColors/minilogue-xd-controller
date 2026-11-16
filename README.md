@@ -13,12 +13,12 @@ Controller plugin for the Korg minilogue xd.
 ## Status
 **Early build v0.1 (pre-release on the Releases page).** A MIDI controller plugin (VST3 and standalone) that sends and receives the CC messages listed in [map/params.csv](map/params.csv).
 
-- 54 map entries (49 sent, 5 held back because their CC number is in doubt, see docs/MIDI-IMPLEMENTATION.md), taken from: Korg minilogue xd (owner manual MIDI chart). The chart prints CC numbers per group without naming each one; the pairing follows the printed order and still needs a test on the unit.
-- **None are tested on the real device yet.** The map only holds what the source above lists; ranges the manual does not print are assumed to be 0 to 127 and are marked that way in the plugin.
+- 73 parameters (53 CC and 20 NRPN), taken from Korg's official "minilogue xd MIDI Implementation" rev 1.01. Every entry carries its source in map/params.csv and docs/MIDI-IMPLEMENTATION.md. The NRPN entries assume a first byte of 0 (the document prints a dash) and are marked unverified.
+- **None are tested on the real device yet.** Switch controls take a few set values (see the doc). Only the selected MIDI channel is read; other MIDI passes through.
 - No SysEx and no patch librarian yet.
 - Not tested in a DAW yet. Builds in CI on Linux, Windows and macOS.
 
-How it behaves: every sent entry is an automatable parameter. Incoming CC is read only on the plugin's MIDI channel. Moving it sends MIDI to the device, and incoming CC from the device moves it; incoming CC is consumed, never echoed back. At most 16 parameters are sent per audio block so the device is not flooded. Turn on CC receive and transmit on the device.
+How it behaves: every entry is an automatable parameter. Moving it sends MIDI to the device, and incoming CC from the device moves it; incoming CC is consumed, never echoed back. At most 16 parameters are sent per audio block so the device is not flooded. Turn on CC receive and transmit on the device.
 
 Build: `sh tests/run.sh` runs the pure C++ tests (no JUCE needed). The plugin needs JUCE 8: clone it into `third_party/JUCE`, then `cmake -B build && cmake --build build`. Changing a parameter means editing `map/params.csv` only.
 

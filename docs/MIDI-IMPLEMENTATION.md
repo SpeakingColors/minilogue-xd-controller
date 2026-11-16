@@ -1,175 +1,120 @@
 # minilogue xd: MIDI implementation
 
-Source: Korg minilogue xd Owner's Manual (E 1) with its MIDI Implementation Chart, version 1.00, dated 2018-12-06 (Korg document). The text below was written from that document earlier; in the latest review the Korg PDF and the separate Korg MIDI Implementation PDF could not be reached from the review environment (cdn.korg.com blocked), so the rows were not re-checked against the PDF page by page. Nothing is inferred unless marked **(check)**.
+Source: Korg "minilogue xd MIDI Implementation", Revision 1.01 (2020.2.10), text file from korg.com (Support, Downloads, minilogue xd, MIDI Implimentation). Sections: 1-1 transmitted channel messages, 2-1 recognized channel messages, NRPN table (*3). Everything here is from that document unless marked UNVERIFIED. Nothing is tested on hardware yet ("untested on hardware").
 
-## CC map
+The earlier version of this file and of map/params.csv were built from the owner's manual chart only and had wrong numbers (Delay and Reverb on/off, Delay Depth, Reverb Time and Depth, a "Voice Mode Type" CC 52). These are corrected below.
 
-Status words: **documented** = taken from the manual and checked there; **captured** = recorded from the owner's device; **untested** = not tested on the device. No row in this repo is "captured" yet.
+## CC map (official: Implementation rev 1.01, section 1-1 / 2-1; untested on hardware)
 
-The chart lists CC numbers per function group, in the order printed, without naming each number. The names in the first table below come from pairing the printed names with the printed numbers in order. That pairing is not confirmed.
+Plain CCs carry 7 bits (0 to 127). The synth treats some as 10-bit values with the low 3 bits sent first on CC 63; sending only the 7-bit part is allowed.
+Stepped controls are sent as a few set values (shown in the name). On receive the document says any value inside a band works (for example 0 to 42, 43 to 85, 86 to 127 for three-way switches).
 
-### Chart as printed (grouped as in the chart)
-
-| Function | CC numbers (in printed order) |
+| CC | Function |
 |---|---|
-| Bank Select (MSB, LSB) | 0, 32 |
-| Portamento | 5 |
-| Voice Mode Depth, Voice Mode Type | 27, 52 |
-| VCO1 Wave, Octave, Pitch, Shape | 50, 48, 34, 36 |
-| VCO2 Wave, Octave, Pitch, Shape | 51, 49, 35, 37 |
-| Multi Type, Sub Type, Shape, Shift Shape | 53, 103, 54, 104 |
-| Mixer VCO1, VCO2, Multi | 39, 40, 33 |
-| Cutoff, Resonance | 43, 44 |
-| Cutoff Drive, Keytrack | 84, 83 |
-| Amp EG Attack, Decay, Sustain, Release | 16, 17, 18, 19 |
-| EG Attack, Decay, EG Int, EG Target | 20, 21, 22, 23 |
-| LFO Wave, Mode, Rate | 57, 58, 24 |
-| LFO Int, Target | 26, 56 |
-| Mod FX Type, Sub Type, Time, Depth | 88, 96, 28, 29 |
-| Delay Type, Time, Depth, Dry/Wet | 89, 105, 112, 107 |
-| Reverb Type, Time, Depth, Dry/Wet | 90, 114, 115, 110 |
-| Sync, Ring, Cross Mod Depth | 80, 81, 41 |
-| Mod FX On/Off, Delay On/Off, Reverb On/Off | 92, 94, 95 |
-| Damper | 64 |
-| All Sound Off, Reset All Controllers | 120, 121 |
+| 5 | Portamento Time |
+| 16 | Amp EG Attack |
+| 17 | Amp EG Decay |
+| 18 | Amp EG Sustain |
+| 19 | Amp EG Release |
+| 20 | EG Attack |
+| 21 | EG Decay |
+| 22 | EG Int |
+| 23 | EG Target (0, 64, 127) |
+| 24 | LFO Rate |
+| 26 | LFO Int |
+| 27 | Voice Mode Depth |
+| 28 | Mod FX Time |
+| 29 | Mod FX Depth |
+| 33 | Multi Level |
+| 34 | VCO1 Pitch |
+| 35 | VCO2 Pitch |
+| 36 | VCO1 Shape |
+| 37 | VCO2 Shape |
+| 39 | VCO1 Level |
+| 40 | VCO2 Level |
+| 41 | Cross Mod Depth |
+| 43 | Cutoff |
+| 44 | Resonance |
+| 48 | VCO1 Octave (0, 42, 84, 127) |
+| 49 | VCO2 Octave (0, 42, 84, 127) |
+| 50 | VCO1 Wave (0, 64, 127) |
+| 51 | VCO2 Wave (0, 64, 127) |
+| 53 | Multi Type (0, 64, 127) |
+| 54 | Multi Shape |
+| 56 | LFO Target (0, 64, 127) |
+| 57 | LFO Wave (0, 64, 127) |
+| 58 | LFO Mode (0, 64, 127) |
+| 64 | Hold (Damper) |
+| 80 | Sync (0 or 127) |
+| 81 | Ring (0 or 127) |
+| 83 | Cutoff Keytrack (0, 64, 127) |
+| 84 | Cutoff Drive (0, 64, 127) |
+| 88 | Mod FX Type (0, 38, 64, 84, 127) |
+| 89 | Delay Sub Type |
+| 90 | Reverb Sub Type |
+| 92 | Mod FX On/Off (0 or 127) |
+| 93 | Delay On/Off (0 or 127) |
+| 94 | Reverb On/Off (0 or 127) |
+| 96 | Mod FX Sub Type |
+| 103 | Multi Sub Type Select |
+| 104 | Multi Shift Shape |
+| 105 | Delay Time |
+| 106 | Delay Depth |
+| 107 | Delay Dry/Wet |
+| 108 | Reverb Time |
+| 109 | Reverb Depth |
+| 110 | Reverb Dry/Wet |
 
-### What the plugin does with each CC
+Other CCs in the document, not in the plugin map (they pass through the plugin untouched): 0 / 32 Bank Select (LSB 0 to 4), 1 and 2 joystick, 59 Voice Mode Depth (no display), 63 low-bits value, 118 and 119 CV In (sent only, with Poly Chain Master), 120 All Sound Off, 122 Local Switch, 123 All Notes Off.
 
-| CC | Name in this repo | Plugin status | Source status |
-|---|---|---|---|
-| 0, 32 | Bank Select MSB, LSB | not mapped | number listed in chart (documented) |
-| 120, 121 | All Sound Off, Reset All Controllers | not mapped | numbers listed in chart (documented) |
-| 5 | Portamento | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 16 | Amp EG Attack | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 17 | Amp EG Decay | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 18 | Amp EG Sustain | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 19 | Amp EG Release | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 20 | EG Attack | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 21 | EG Decay | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 22 | EG Int | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 23 | EG Target | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 24 | LFO Rate | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 26 | LFO Int | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 27 | Voice Mode Depth | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 28 | Mod FX Time | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 29 | Mod FX Depth | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 33 | Mixer Multi | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 34 | VCO1 Pitch | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 35 | VCO2 Pitch | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 36 | VCO1 Shape | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 37 | VCO2 Shape | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 39 | Mixer VCO1 | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 40 | Mixer VCO2 | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 41 | Cross Mod Depth | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 43 | Cutoff | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 44 | Resonance | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 48 | VCO1 Octave | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 49 | VCO2 Octave | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 50 | VCO1 Wave | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 51 | VCO2 Wave | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 52 | Voice Mode Type | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 53 | Multi Type | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 54 | Multi Shape | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 56 | LFO Target | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 57 | LFO Wave | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 58 | LFO Mode | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 64 | Damper | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 80 | Sync | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 81 | Ring | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 83 | Cutoff Keytrack | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 84 | Cutoff Drive | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 88 | Mod FX Type | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 89 | Delay Type | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 90 | Reverb Type | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 92 | Mod FX On/Off | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 94 | Delay On/Off | not sent | untested; number in doubt, see below |
-| 95 | Reverb On/Off | not sent | untested; number in doubt, see below |
-| 96 | Mod FX Sub Type | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 103 | Multi Sub Type | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 104 | Shift Shape | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 105 | Delay Time | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 107 | Delay Dry/Wet | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 110 | Reverb Dry/Wet | sent and received | untested; CC number is in the chart, the name pairing follows printed order and is unconfirmed |
-| 112 | Delay Depth | not sent | untested; number in doubt, see below |
-| 114 | Reverb Time | not sent | untested; number in doubt, see below |
-| 115 | Reverb Depth | not sent | untested; number in doubt, see below |
+Document inconsistency: for SYNC and RING the sent values are 0 = off, 127 = on, but the receive notes (6-08, 6-09) list 0 to 63 as "ON". The plugin sends 0 or 127 as in the sent table. UNVERIFIED on hardware.
 
-### Entries not sent (numbers in doubt)
+## NRPN (official: same document, NRPN table; untested on hardware)
 
-These five map entries have kind `unsent` in map/params.csv: the plugin neither sends them nor reads them, and it creates no host parameter for them (their ids stay reserved in the file).
+The table prints the MSB column as "--". The plugin reads it as MSB 0. UNVERIFIED until captured on the device. Sent as CC 99 (MSB), CC 98 (LSB), CC 6 (data).
 
-| Entry | Number in this repo | Why |
+| LSB (hex) | Function | Range |
 |---|---|---|
-| Delay On/Off, Reverb On/Off | 94, 95 | An unofficial third-party library (oxur/minilogue-xd, Rust) lists Mod FX 92, Delay 93, Reverb 94. |
-| Delay Depth | 112 | The same library lists Delay Depth 106. |
-| Reverb Time, Reverb Depth | 114, 115 | The same library lists 108 and 109. |
+| 10 | Voice Mode Type (0 Arp Latch, 1 Arp, 2 Chord, 3 Unison, 4 Poly) | 0 to 4 |
+| 11 | Multi Select Noise | 0 to 3 |
+| 12 | Multi Select VPM | 0 to 15 |
+| 13 | Multi Select User | 0 to 15 |
+| 20 | Bend Range + | 0 to 12 |
+| 21 | Bend Range - | 0 to 12 |
+| 31 | Scale Key | 0 to 24 |
+| 32 | Program Tuning | 0 to 100 |
+| 34 | LFO Key Sync | 0 to 1 |
+| 35 | LFO Voice Sync | 0 to 1 |
+| 36 | LFO Target Osc | 0 to 3 |
+| 38 | EG Velocity | 0 to 127 |
+| 39 | Amp Velocity | 0 to 127 |
+| 3A | Multi Octave | 0 to 3 |
+| 3B | Multi Routing (0 Pre VCF, 1 Post VCF) | 0 to 1 |
+| 3C | EG Legato | 0 to 1 |
+| 3D | Portamento Mode (0 Auto, 1 On) | 0 to 1 |
+| 3E | Portamento BPM Sync | 0 to 1 |
+| 3F | Program Level | 0 to 120 |
+| 50 | Program Transpose | 1 to 25 |
 
-That library is not a Korg document and its value is not used here; the disagreement is the reason to stop sending. They go back in once the numbers are confirmed in Korg's chart or on the device. The same library also lists 10-bit values sent as CC 63 (LSB) plus the parameter CC; this is not in the chart as read here, so the plugin does not use it.
+Defaults for Program Level (90 = 0 dB) and Program Transpose (13 = 0) are our reading of the printed ranges (0 to 120 = -18 to +6 dB; 1 to 25 = -12 to +12 notes).
+Not in the plugin yet: program name (LSB 01 to 0C, ASCII), values that need more than 7 bits (Multi Shape and Shift Shape per type, 14, 15, 16, 17, 18, 19 hex, 0 to 1023), joystick and CV In assign or range, micro tuning (0 to 127, with values 112 to 123 for user scales), VPM and user params, Master Volume (7F hex, 14-bit). Reason: the 8-bit to 14-bit sending order (low part on CC 63 first) is not implemented and not tested.
 
-Notes:
-- Control changes need Global "MIDI Rx CC" On to be received and "MIDI Tx CC" On to be sent.
-- Per the manual: CC#1 (mod wheel), CC#64 (damper) and CC#120 onward are not affected by the "MIDI Rx CC" setting.
-- The chart footnotes say "prologue" in several places. That is a Korg template error; the chart is headed "Model: minilogue xd".
+## Program change and bank
 
-## Other messages (chart)
+Program Change 0 to 99, Bank Select MSB 0, LSB 0 to 4 (official, sections 1-1 / 2-1). Needs MIDI Tx/Rx Prog Chg On. The plugin does not send these yet.
 
-- Basic channel 1 to 16 (Global "MIDI Ch").
-- Note number 0 to 127; note on velocity 1 to 127.
-- Pitch bend: yes (Global "MIDI Rx/Tx Pitch Bend").
-- Program change 0 to 99 (Global "MIDI Rx/Tx Prog Chg"). With Bank Select this reaches 500 programs; the bank value range is not in the chart **(check)**.
-- System exclusive: yes. Korg exclusive messages plus MIDI Inquiry.
-- Clock and transport: received only when Global "Clock Source" is Auto (MIDI) or Auto (USB); not when Internal. "En Rx Transport" controls start/stop/continue.
-- Aftertouch: no.
+## Other messages (official)
 
-## SysEx (from the manual)
+- Channel Pressure received. Pitch bend both ways. Clock, Start, Stop, Continue received when Clock is Auto (USB) or Auto (MIDI).
+- Device Inquiry: reply carries Korg ID 42, family 51 01.
+- SysEx function IDs (official, section 1-4 / 2-5): 40 current program dump, 4C program dump (1 prog), 51 global dump, 44 tuning scale dump, 45 tuning octave dump, 47 to 4A user API/module/slot, 60 and 61 Poly Chain note on/off, requests 10, 1C, 0E, 14, 15, 17 to 1B. Byte layouts of the program data are in the same document (section 3 onwards); the plugin does not use SysEx.
 
-- Program Dump: sends the current program over MIDI OUT and USB (PROGRAM EDIT, button 14).
-- All Dump: programs, live set and global data. About 10 s over USB, about 30 s over MIDI DIN.
-- User Scale and User Octave dumps (GLOBAL EDIT buttons 13 and 15). While a USER SCALE or USER OCTAVE page is shown, the unit receives SysEx microtuning messages and overwrites the scale being edited, whatever number the message carries.
-- The byte layout of these messages is **not** in this document. It is in Korg's separate "minilogue xd MIDI Implementation" PDF. TODO: obtain it and add the program data format here.
+## Global MIDI settings (owner's manual)
 
-## Global MIDI settings (GLOBAL EDIT)
+CC receive needs Global "MIDI Rx CC" On, sending needs "MIDI Tx CC" On. Also: MIDI Route (USB+MIDI or USB), MIDI Ch 1 to 16, Clock Source, En Rx Transport, Rx/Tx Prog Chg, Rx/Tx Pitch Bend, Local SW.
 
-| Page | Setting | Values |
-|---|---|---|
-| GLOBAL 4 | MIDI Route | USB+MIDI, USB |
-| GLOBAL 4 | MIDI Ch | 1 to 16 |
-| GLOBAL 4 | Clock Source | Auto (USB), Auto (MIDI), Internal |
-| GLOBAL 4 | En Rx Transport | Off, On |
-| GLOBAL 5 | MIDI Rx Prog Chg, Rx CC, Rx Pitch Bend | Off, On |
-| GLOBAL 5 | MIDI Tx Prog Chg, Tx CC, Tx Pitch Bend | Off, On |
-| GLOBAL 2 | Local SW | Off, On (set Off with a DAW echoing notes back) |
-| GLOBAL 3 | Sync In/Out Unit | 16th Note, 8th Note |
+## How the plugin uses this
 
-Our plugin should read or warn about Route, Channel, Rx/Tx CC and Local SW, since they decide whether it can control the synth at all.
-
-## Front panel parameter ranges (manual)
-
-| Parameter | Range |
-|---|---|
-| Tempo | BPM 56.0 to 240.0 (knob); sequencer BPM 10.0 to 300.0 (SEQ EDIT) |
-| Portamento | 0 to 127 |
-| Voice Mode Depth | 0 to 1023 (POLY/DUO); Detune 0 to 50 cent (UNISON); chord type list; arp type list |
-| VCO Pitch | -1200 to +1200 cent |
-| VCO Shape, Cross Mod Depth, Mixer levels | 0 to 1023 |
-| Cutoff, Resonance | 0 to 1023 |
-| Drive, Keytrack | 0%, 50%, 100% (3-way switches) |
-| Amp EG A/D/S/R, EG A/D | 0 to 1023 |
-| EG Int | -100% to +100% |
-| LFO Rate | 0 to 1023, or note values in BPM mode |
-| LFO Int | 0 to 511 (0 to -511 with Shift) |
-| Effects Depth | 0.0% to 100% |
-| Program Level | -18.0 dB to +6.0 dB |
-| Program Tuning | -50 to +50 cent |
-| Swing | -75% to +75% |
-| Step Length | 1 to 16 |
-
-The panel uses 10-bit values; CCs carry 7 bits. Whether the synth scales CC values to the full range is not stated **(check on hardware)**.
-
-## Open items
-
-1. SysEx byte layout (Korg minilogue xd MIDI Implementation PDF).
-2. CC value mapping for switch parameters (wave, octave, target, mode, effect types) and how Multi Type/Sub Type values map to engine and effect lists.
-3. Confirm the five unsent numbers above in the chart.
-4. Bank value range for Bank Select.
-5. Whether NRPN is used anywhere; the chart lists none.
+- One MIDI channel (parameter "MIDI channel"). Incoming CC on other channels is ignored and passed through. CCs that are not in the map pass through unchanged.
+- "Send all" sends every value including the defaults (mostly 0). Use it with care.
+- Every row in map/params.csv has a source column. hw = 0 everywhere: nothing has been tested on a real minilogue xd.
