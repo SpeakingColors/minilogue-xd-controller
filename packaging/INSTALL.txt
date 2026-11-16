@@ -1,4 +1,4 @@
-minilogue xd Controller install, remove and use (works fully offline)
+minilogue xd Controller install, remove and use
 =====================================================
 
 Windows

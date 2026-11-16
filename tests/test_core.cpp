@@ -23,6 +23,12 @@ int main(int argc, char** argv)
     CHECK(r.params[1].kind == Kind::NRPN && r.params[1].maxV == 4);
     CHECK(encode(r.params[2], 1, 5).empty());                 // pairs are not sent
     CHECK(encode(r.params[1], 1, 99).back().d2 == 4);         // clamped to the range
+    // unsent entries: never encoded, never decoded
+    { auto u = parseMap("cc_9,g,n,unsent,9,0,0,127,0,assumed,0\ncc_8,g,m,cc,8,0,0,127,0,assumed,0\n");
+      CHECK(u.errors.empty() && u.params.size() == 2 && u.params[0].kind == Kind::Unsent);
+      CHECK(encode(u.params[0], 1, 5).empty()); Decoder du(u.params); CHECK(!du.feedCC(9, 5)); CHECK(du.feedCC(8, 5)); }
+    // channel filter
+    CHECK(channelMatches(3, 3)); CHECK(!channelMatches(2, 3)); CHECK(channelMatches(16, 99)); CHECK(channelMatches(1, 0));
     // bad input is rejected, not crashed on
     CHECK(!parseMap("a,b\nx").errors.empty());
     CHECK(!parseMap("cc_1,g,n,cc,200,0,0,127,0,manual,0\n").errors.empty());
@@ -37,7 +43,7 @@ int main(int argc, char** argv)
     { Decoder fresh(r.params); CHECK(!fresh.feedCC(6, 1)); }                            // data entry with no NRPN selected is ignored
     CHECK(!d.feedCC(77, 1));                                  // unknown CC
     // round trip
-    for (const auto& p : r.params) if (p.kind != Kind::Pair)
+    for (const auto& p : r.params) if (isActive(p))
     {
         Decoder dd(r.params); std::optional<Event> last; for (auto& msg : encode(p, 1, p.maxV)) last = dd.feedCC(msg.d1, msg.d2);
         CHECK(last && r.params[size_t(last->paramIndex)].id == p.id && last->value == p.maxV);
@@ -48,9 +54,9 @@ int main(int argc, char** argv)
         std::ifstream f(argv[1]); std::stringstream ss; ss << f.rdbuf(); auto real = parseMap(ss.str());
         for (auto& er : real.errors) std::printf("map error: %s\n", er.c_str());
         CHECK(real.errors.empty());
-        int hw = 0, usable = 0; for (auto& p : real.params) { hw += p.hwVerified; usable += p.kind != Kind::Pair; }
+        int hw = 0, usable = 0; for (auto& p : real.params) { hw += p.hwVerified; usable += isActive(p); }
         std::printf("map: %zu entries, %d usable, %d verified on hardware\n", real.params.size(), usable, hw);
-        for (auto& p : real.params) if (p.kind != Kind::Pair)
+        for (auto& p : real.params) if (isActive(p))
         { Decoder dd(real.params); std::optional<Event> last; for (auto& msg : encode(p, 1, p.defV)) last = dd.feedCC(msg.d1, msg.d2); CHECK(last && real.params[size_t(last->paramIndex)].id == p.id); }
     }
     std::printf(fails ? "%d failures\n" : "all core tests passed\n", fails);

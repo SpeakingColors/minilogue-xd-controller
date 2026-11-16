@@ -11,7 +11,8 @@
 
 namespace ctl
 {
-enum class Kind { CC, NRPN, Pair };   // Pair = two CCs that form one value; the manual does not say how, so it is not sent yet
+enum class Kind { CC, NRPN, Pair, Unsent };   // Pair = two CCs that form one value; the manual does not say how, so it is not sent yet.
+                                              // Unsent = address is in doubt (sources disagree); never sent, never decoded, no host parameter
 
 struct Param
 {
@@ -60,7 +61,7 @@ inline ParseResult parseMap(const std::string& text)
         if (f.size() != 11) { err("expected 11 columns"); continue; }
         Param p; p.id = f[0]; p.group = f[1]; p.name = f[2];
         if (p.id.empty() || p.name.empty()) { err("empty id or name"); continue; }
-        if (f[3] == "cc") p.kind = Kind::CC; else if (f[3] == "nrpn") p.kind = Kind::NRPN; else if (f[3] == "pair") p.kind = Kind::Pair; else { err("unknown kind"); continue; }
+        if (f[3] == "cc") p.kind = Kind::CC; else if (f[3] == "nrpn") p.kind = Kind::NRPN; else if (f[3] == "pair") p.kind = Kind::Pair; else if (f[3] == "unsent") p.kind = Kind::Unsent; else { err("unknown kind"); continue; }
         if (!toInt(f[4], p.a) || !toInt(f[5], p.b) || !toInt(f[6], p.minV) || !toInt(f[7], p.maxV) || !toInt(f[8], p.defV)) { err("bad number"); continue; }
         if (p.a < 0 || p.a > 127 || p.b < 0 || p.b > 127) { err("number outside 0..127"); continue; }
         if (p.minV < 0 || p.maxV > 127 || p.minV > p.maxV || p.defV < p.minV || p.defV > p.maxV) { err("bad range"); continue; }
@@ -86,9 +87,10 @@ inline std::vector<Msg> nrpn(int ch, int msb, int lsb, int val)
     return { cc(ch, 99, msb), cc(ch, 98, lsb), cc(ch, 6, val) };
 }
 
-// What to send for one parameter value. Pair parameters send nothing (not verified how the two CCs combine).
+// What to send for one parameter value. Pair and Unsent parameters send nothing.
 inline std::vector<Msg> encode(const Param& p, int ch, int val)
 {
+    if (p.kind == Kind::Unsent) return {};
     val = std::clamp(val, p.minV, p.maxV);
     if (p.kind == Kind::CC) return { cc(ch, p.a, val) };
     if (p.kind == Kind::NRPN) return nrpn(ch, p.a, p.b, val);
@@ -96,6 +98,12 @@ inline std::vector<Msg> encode(const Param& p, int ch, int val)
 }
 
 struct Event { int paramIndex = -1; int value = 0; };
+
+// True when an incoming message on channel inCh (1..16) is meant for a plugin set to channel ch (1..16).
+inline bool channelMatches(int inCh, int ch) { return inCh == std::clamp(ch, 1, 16); }
+
+// True for kinds that become host parameters and are sent or received.
+inline bool isActive(const Param& p) { return p.kind == Kind::CC || p.kind == Kind::NRPN; }
 
 // Turns incoming CC messages into parameter events. Follows the NRPN CC 99 / 98 / 6 sequence.
 class Decoder
@@ -120,7 +128,7 @@ private:
         for (size_t i = 0; i < params.size(); ++i)
         {
             const auto& p = params[i];
-            if (p.kind == k && p.a == a && (k == Kind::CC || p.b == b))
+            if (isActive(p) && p.kind == k && p.a == a && (k == Kind::CC || p.b == b))
                 return Event{ int(i), std::clamp(val, p.minV, p.maxV) };
         }
         return std::nullopt;

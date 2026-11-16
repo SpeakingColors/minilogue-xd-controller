@@ -28,7 +28,7 @@ public:
         channelParam = ch.get(); addParameter(ch.release());
         for (auto& p : mapRes.params)
         {
-            if (p.kind == ctl::Kind::Pair || int(slots.size()) >= kMaxParams) continue;
+            if (!ctl::isActive(p) || int(slots.size()) >= kMaxParams) continue;
             auto ip = std::make_unique<juce::AudioParameterInt>(juce::ParameterID{ p.id, 1 }, p.name, p.minV, p.maxV, p.defV);
             Slot s; s.param = ip.get(); s.map = int(&p - mapRes.params.data()); slots.push_back(s);
             addParameter(ip.release());
@@ -53,12 +53,12 @@ public:
     void processBlock(juce::AudioBuffer<float>& audio, juce::MidiBuffer& midi) override
     {
         juce::ScopedNoDenormals nd; audio.clear();
-        // 1. incoming from the device: CC messages are consumed here, everything else passes through unchanged
+        // 1. incoming from the device: CC messages on the plugin's MIDI channel are consumed here, everything else passes through unchanged
         juce::MidiBuffer passthru;
         for (const auto meta : midi)
         {
             const auto msg = meta.getMessage();
-            if (msg.isController())
+            if (msg.isController() && ctl::channelMatches(msg.getChannel(), channelParam->get()))
             {
                 if (auto e = decoder.feedCC(msg.getControllerNumber(), msg.getControllerValue()))
                     for (size_t i = 0; i < slots.size(); ++i) if (slots[i].map == e->paramIndex) { incoming[i] = e->value; break; }
@@ -170,14 +170,14 @@ public:
         chSlider.setSliderStyle(juce::Slider::IncDecButtons); chSlider.setTextBoxStyle(juce::Slider::TextBoxLeft, false, 36, 24);
         chAttach = std::make_unique<juce::SliderParameterAttachment>(*proc.channelParam, chSlider);
         int hw = 0, manual = 0; for (auto& s : proc.slots) { hw += proc.mapRes.params[size_t(s.map)].hwVerified; manual++; }
-        int pairs = 0; for (auto& q : proc.mapRes.params) pairs += q.kind == ctl::Kind::Pair;
-        status.setText(juce::String(manual) + " parameters from the manual, " + juce::String(hw) + " tested on the device" + (pairs ? ", " + juce::String(pairs) + " two-CC controls not supported yet" : "")
+        int pairs = 0; for (auto& q : proc.mapRes.params) pairs += !ctl::isActive(q);
+        status.setText(juce::String(manual) + " parameters from the manual, " + juce::String(hw) + " tested on the device" + (pairs ? ", " + juce::String(pairs) + " map entries not sent (unconfirmed address or two-CC)" : "")
                        + ". Turn on CC receive and transmit on the device.", juce::dontSendNotification);
         status.setFont(juce::FontOptions(12.0f));
         for (auto* w : std::initializer_list<juce::Component*>{ &group, &filter, &sendAll, &chLabel, &chSlider, &status, &list }) c.addAndMakeVisible(w);
         list.setModel(this); list.setRowHeight(30);
         frame.header().onInfo = [this] { juce::AlertWindow::showMessageBoxAsync(juce::MessageBoxIconType::InfoIcon, "minilogue xd Controller",
-            "Free and open source by Studio 87. Values come from the maker's manual. Nothing is sent that is not in the map, and nothing is invented. Support: ko-fi.com/studio87"); };
+            "Free and open source by Studio 87. Values come from the maker's manual. Only controls listed in the map are sent. Support: ko-fi.com/studio87"); };
         rebuild(); setResizable(true, true); getConstrainer()->setFixedAspectRatio(760.0 / 560.0); setResizeLimits(380, 280, 1900, 1400); setSize(760, 560);
     }
     void resized() override
